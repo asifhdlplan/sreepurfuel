@@ -1,0 +1,11 @@
+{
+  "name": "fuel-update-mawna-sreepur",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "npx serve .",
+    "deploy:firebase": "firebase deploy",
+    "deploy:functions": "firebase deploy --only functions",
+    "deploy:hosting": "firebase deploy --only hosting"
+  }
+}
