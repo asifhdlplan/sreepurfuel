@@ -1,0 +1,19 @@
+{
+  "name": "fuel-update-mawna-sreepur-api",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "firebase emulators:start --only functions,firestore",
+    "deploy": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.3.1",
+    "firebase-functions": "^5.0.1"
+  }
+}
