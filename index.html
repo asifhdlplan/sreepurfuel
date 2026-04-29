@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuel Update Mawna Sreepur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="./fuel_logo.png">
+  <link rel="apple-touch-icon" href="./fuel_logo.png">
+  <style>
+    :root {
+      --ink: #17201b;
+      --muted: #66736c;
+      --paper: #fbfcf9;
+      --line: #dce4dd;
+      --green: #15803d;
+      --yellow: #c89100;
+      --red: #c02626;
+      --brand: #0f766e;
+      --brand-dark: #115e59;
+      --white: #ffffff;
+      --shadow: 0 14px 40px rgba(23, 32, 27, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Noto Sans Bengali", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      background: #0f3d37;
+      color: var(--white);
+      box-shadow: 0 10px 30px rgba(15, 61, 55, 0.18);
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 58px;
+      height: 58px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 4px;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.24), 0 10px 24px rgba(0, 0, 0, 0.22);
+      animation: logoFloat 4s ease-in-out infinite;
+    }
+
+    .brand-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: clamp(20px, 5vw, 34px);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 14px;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-3px) rotate(2deg);
+      }
+    }
+
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: max-content;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.18);
+    }
+
+    .search-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr;
+    }
+
+    .field {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: var(--white);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .field:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+    }
+
+    .main-grid {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 12px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .map-wrap {
+      min-height: 330px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #dfe9de;
+      box-shadow: var(--shadow);
+    }
+
+    #map {
+      position: relative;
+      min-height: 330px;
+      height: 100%;
+      width: 100%;
+    }
+
+    #googleMapFallback {
+      display: none;
+      min-height: 330px;
+      height: 100%;
+      width: 100%;
+      border: 0;
+    }
+
+    .map-notice {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 10;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #0f3d37;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(15, 118, 110, 0.2);
+      box-shadow: 0 8px 24px rgba(23, 32, 27, 0.12);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .panel-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 10px 28px rgba(23, 32, 27, 0.08);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .panel-note {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form {
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .label {
+      display: grid;
+      gap: 6px;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    textarea.field {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .btn {
+      min-height: 46px;
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 800;
+      color: var(--white);
+      background: var(--brand);
+    }
+
+    .btn:hover {
+      background: var(--brand-dark);
+    }
+
+    .btn.secondary {
+      color: var(--ink);
+      background: #e9f4ef;
+      border: 1px solid #c7ded3;
+    }
+
+    .station-list {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      max-height: none;
+      overflow: auto;
+    }
+
+    .station-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      background: #ffffff;
+    }
+
+    .station-card.active {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+    }
+
+    .station-card {
+      cursor: pointer;
+    }
+
+    .station-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .station-name {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .station-location,
+    .station-meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .station-history {
+      display: grid;
+      gap: 8px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+
+    .history-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .history-item {
+      border-radius: 8px;
+      padding: 9px;
+      background: #f7faf7;
+      border: 1px solid #e3ebe5;
+      display: grid;
+      gap: 4px;
+    }
+
+    .history-line {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .history-line strong {
+      color: var(--ink);
+    }
+
+    .station-action {
+      margin-top: 2px;
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #17201b;
+      background: #eef2ef;
+    }
+
+    .badge.available {
+      color: #0f5132;
+      background: #d9fbe4;
+    }
+
+    .badge.low {
+      color: #6f4f00;
+      background: #fff0b8;
+    }
+
+    .badge.empty {
+      color: #842029;
+      background: #ffd9d9;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .toast {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 1000;
+      display: none;
+      border-radius: 8px;
+      padding: 13px 14px;
+      background: #10251f;
+      color: var(--white);
+      box-shadow: var(--shadow);
+      font-weight: 700;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .api-note {
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .admin-lock {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .admin-controls {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      background: #f7fbf8;
+    }
+
+    .admin-control-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .admin-summary {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .admin-content[hidden],
+    .admin-lock[hidden] {
+      display: none;
+    }
+
+    .admin-error {
+      min-height: 20px;
+      margin: 0;
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .credit-band {
+      border-top: 1px solid var(--line);
+      background: #0f3d37;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    .credit-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .credit-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+    }
+
+    .credit-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 3px;
+      animation: creditGlow 2.8s ease-in-out infinite;
+    }
+
+    .credit-links {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr;
+    }
+
+    .credit-link {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      font-weight: 800;
+      transform: translateY(0);
+      transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+      animation: creditRise 650ms ease both;
+    }
+
+    .credit-link:nth-child(2) {
+      animation-delay: 100ms;
+    }
+
+    .credit-link:nth-child(3) {
+      animation-delay: 200ms;
+    }
+
+    .credit-link:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .social-icon {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      display: block;
+    }
+
+    .social-icon.facebook {
+      color: #1877f2;
+    }
+
+    .social-icon.instagram {
+      color: #e4405f;
+    }
+
+    .social-icon.github {
+      color: #ffffff;
+    }
+
+    @keyframes creditRise {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes creditGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.34);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+      }
+    }
+
+    .google-popup {
+      font-family: "Noto Sans Bengali", system-ui, sans-serif;
+      min-width: 220px;
+      color: var(--ink);
+    }
+
+    @media (min-width: 760px) {
+      .topbar-inner {
+        padding: 16px 20px;
+      }
+
+      .search-grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+      }
+
+      .main-grid {
+        grid-template-columns: minmax(0, 1.4fr) minmax(330px, 0.8fr);
+        align-items: start;
+        padding: 20px;
+      }
+
+      .map-wrap,
+      #map,
+      #googleMapFallback {
+        min-height: calc(100vh - 164px);
+      }
+
+      .button-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .admin-control-grid {
+        grid-template-columns: 1.2fr 1fr 1fr;
+      }
+
+      .station-list {
+        max-height: 430px;
+      }
+
+      .credit-links {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .toast {
+        left: auto;
+        width: min(380px, calc(100vw - 32px));
+      }
+
+      .credit-inner {
+        grid-template-columns: 1fr auto;
+        padding: 18px 20px;
+      }
+    }
+
+    @media (max-width: 759px) {
+      body {
+        background: #f7faf7;
+      }
+
+      .topbar-inner {
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .brand-row {
+        display: grid;
+        gap: 10px;
+      }
+
+      .brand {
+        gap: 10px;
+      }
+
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+      }
+
+      .brand-title {
+        font-size: 24px;
+      }
+
+      .brand-subtitle {
+        font-size: 13px;
+      }
+
+      .live-pill {
+        width: 100%;
+        justify-content: center;
+        min-width: 0;
+        padding: 9px 10px;
+      }
+
+      .field,
+      .btn {
+        min-height: 50px;
+        font-size: 16px;
+      }
+
+      .map-wrap,
+      #map,
+      #googleMapFallback {
+        min-height: 315px;
+      }
+
+      .map-notice {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        font-size: 12px;
+      }
+
+      .panel-header,
+      .form,
+      .admin-lock,
+      .admin-controls {
+        padding: 12px;
+      }
+
+      .panel-title {
+        font-size: 19px;
+      }
+
+      .button-row {
+        gap: 10px;
+      }
+
+      .station-head {
+        display: grid;
+        gap: 8px;
+      }
+
+      .station-card {
+        padding: 11px;
+      }
+
+      .badge {
+        font-size: 12px;
+        padding: 6px 9px;
+      }
+
+      .admin-table {
+        min-width: 420px;
+      }
+
+      .credit-inner {
+        padding: 14px 12px;
+      }
+
+      .credit-link {
+        justify-content: center;
+      }
+
+      .toast {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .brand-title {
+        font-size: 21px;
+      }
+
+      .brand-logo {
+        width: 44px;
+        height: 44px;
+      }
+
+      .main-grid {
+        padding: 10px;
+      }
+
+      .map-wrap,
+      #map,
+      #googleMapFallback {
+        min-height: 285px;
+      }
+
+      .panel-title {
+        font-size: 18px;
+      }
+
+      .credit-brand {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-row">
+          <div class="brand">
+            <img class="brand-logo" src="./fuel_logo.png" alt="শ্রীপুর ফুয়েল লোগো">
+            <div class="brand-copy">
+              <h1 class="brand-title">Fuel Update Mawna Sreepur</h1>
+              <p class="brand-subtitle">মাওনা এলাকার জ্বালানির লাইভ আপডেট</p>
+            </div>
+          </div>
+          <div class="live-pill" aria-live="polite"><span class="pulse"></span><span id="connectionText">লাইভ সংযোগ প্রস্তুত</span></div>
+        </div>
+        <div class="search-grid" aria-label="স্টেশন খোঁজার অপশন">
+          <input class="field" id="searchInput" type="search" placeholder="ফিলিং স্টেশন খুঁজুন">
+          <select class="field" id="fuelFilter">
+            <option value="all">সব জ্বালানি</option>
+            <option value="petrol">পেট্রোল</option>
+            <option value="octane">অকটেন</option>
+            <option value="diesel">ডিজেল</option>
+          </select>
+          <button class="btn secondary" id="nearbyBtn" type="button">নিকটবর্তী স্টেশন দেখুন</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <section class="map-wrap" aria-label="মাওনা ফিলিং স্টেশন মানচিত্র">
+        <div id="map">
+          <iframe
+            id="googleMapFallback"
+            title="মাওনা শ্রীপুর গাজীপুর ফিলিং স্টেশন Google Map"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=filling%20station%20petrol%20pump%20near%20Mawna%20Sreepur%20Gazipur%20Bangladesh&output=embed">
+          </iframe>
+          <div class="map-notice" id="mapNotice">Google Maps লোড হচ্ছে...</div>
+        </div>
+      </section>
+
+      <aside class="panel-grid">
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">জ্বালানি আপডেট দিন</h2>
+            <p class="panel-note">স্টেশন নির্বাচন করে বর্তমান অবস্থা জানান।</p>
+          </div>
+          <form class="form" id="updateForm">
+            <label class="label">
+              স্টেশন নির্বাচন করুন
+              <select class="field" id="stationSelect" required></select>
+            </label>
+            <label class="label">
+              জ্বালানির ধরন নির্বাচন করুন
+              <select class="field" id="fuelType" required>
+                <option value="">নির্বাচন করুন</option>
+                <option value="petrol">পেট্রোল</option>
+                <option value="octane">অকটেন</option>
+                <option value="diesel">ডিজেল</option>
+              </select>
+            </label>
+            <label class="label">
+              স্ট্যাটাস নির্বাচন করুন
+              <select class="field" id="status" required>
+                <option value="">নির্বাচন করুন</option>
+                <option value="available">স্টক আছে</option>
+                <option value="low">কম</option>
+                <option value="empty">নেই</option>
+              </select>
+            </label>
+            <label class="label">
+              রিফিল সময় (ঐচ্ছিক)
+              <input class="field" id="refillTime" type="text" placeholder="যেমন: রাত ৯টার পর">
+            </label>
+            <label class="label">
+              মন্তব্য (ঐচ্ছিক)
+              <textarea class="field" id="comment" placeholder="মন্তব্য লিখুন"></textarea>
+            </label>
+            <div class="button-row">
+              <button class="btn" type="submit">সাবমিট করুন</button>
+              <button class="btn secondary" id="clearBtn" type="button">ফর্ম পরিষ্কার করুন</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">স্টেশন তালিকা</h2>
+            <p class="panel-note" id="stationCount">স্টেশন লোড হচ্ছে</p>
+          </div>
+          <div class="station-list" id="stationList"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">অ্যাডমিন প্যানেল</h2>
+            <p class="panel-note">পাসওয়ার্ড দিলে সর্বশেষ ব্যবহারকারী আপডেট দেখা যাবে।</p>
+          </div>
+          <form class="admin-lock" id="adminLoginForm">
+            <label class="label">
+              অ্যাডমিন পাসওয়ার্ড
+              <input class="field" id="adminPassword" type="password" inputmode="numeric" autocomplete="current-password" placeholder="পাসওয়ার্ড লিখুন">
+            </label>
+            <button class="btn" type="submit">প্রবেশ করুন</button>
+            <p class="admin-error" id="adminError" aria-live="polite"></p>
+          </form>
+          <div class="admin-content" id="adminContent" hidden>
+            <form class="admin-controls" id="adminControlForm">
+              <p class="admin-summary" id="adminSummary">সব স্টেশন ও আপডেট কন্ট্রোল</p>
+              <div class="admin-control-grid">
+                <label class="label">
+                  স্টেশন
+                  <select class="field" id="adminStationSelect"></select>
+                </label>
+                <label class="label">
+                  জ্বালানি
+                  <select class="field" id="adminFuelType">
+                    <option value="petrol">পেট্রোল</option>
+                    <option value="octane">অকটেন</option>
+                    <option value="diesel">ডিজেল</option>
+                  </select>
+                </label>
+                <label class="label">
+                  স্ট্যাটাস
+                  <select class="field" id="adminStatus">
+                    <option value="available">স্টক আছে</option>
+                    <option value="low">কম</option>
+                    <option value="empty">নেই</option>
+                  </select>
+                </label>
+              </div>
+              <label class="label">
+                অ্যাডমিন মন্তব্য
+                <textarea class="field" id="adminComment" placeholder="যেমন: অ্যাডমিন দ্বারা যাচাই করা হয়েছে"></textarea>
+              </label>
+              <div class="button-row">
+                <button class="btn" type="submit">স্ট্যাটাস আপডেট করুন</button>
+                <button class="btn secondary" id="adminOpenStationBtn" type="button">স্টেশন খুলুন</button>
+              </div>
+            </form>
+            <div style="overflow:auto">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>স্টেশন</th>
+                    <th>জ্বালানি</th>
+                    <th>অবস্থা</th>
+                    <th>সময়</th>
+                    <th>মন্তব্য</th>
+                  </tr>
+                </thead>
+                <tbody id="adminRows"></tbody>
+              </table>
+            </div>
+            <p class="api-note">API: <code>GET /stations</code>, <code>GET /updates/:station_id</code>, <code>POST /update</code></p>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="credit-band">
+      <div class="credit-inner">
+        <div class="credit-brand">
+          <img class="credit-logo" src="./fuel_logo.png" alt="শ্রীপুর ফুয়েল লোগো">
+          <span>তৈরি করেছেন আসিফ</span>
+        </div>
+        <nav class="credit-links" aria-label="আসিফের সোশ্যাল লিংক">
+          <a class="credit-link" href="https://www.facebook.com/asif.j30" target="_blank" rel="noopener noreferrer" aria-label="Facebook asif.j30">
+            <svg class="social-icon facebook" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.91h-2.34V22C18.34 21.24 22 17.08 22 12.06Z"/>
+            </svg>
+            <span>asif.j30</span>
+          </a>
+          <a class="credit-link" href="https://www.instagram.com/resetasif" target="_blank" rel="noopener noreferrer" aria-label="Instagram resetasif">
+            <svg class="social-icon instagram" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7.25A4.75 4.75 0 1 1 12 16.75 4.75 4.75 0 0 1 12 7.25Zm0 2A2.75 2.75 0 1 0 12 14.75 2.75 2.75 0 0 0 12 9.25Z"/>
+            </svg>
+            <span>resetasif</span>
+          </a>
+          <a class="credit-link" href="https://github.com/asifonwork" target="_blank" rel="noopener noreferrer" aria-label="GitHub asifonwork">
+            <svg class="social-icon github" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.2-3.37-1.2-.45-1.16-1.11-1.47-1.11-1.47-.91-.63.07-.62.07-.62 1 .07 1.53 1.04 1.53 1.04.9 1.54 2.36 1.1 2.93.84.09-.65.35-1.1.63-1.35-2.22-.25-4.55-1.12-4.55-4.95 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.42 9.42 0 0 1 12 6.95c.85 0 1.7.11 2.5.34 1.9-1.3 2.74-1.03 2.74-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.69 0 3.84-2.34 4.7-4.57 4.95.36.31.68.92.68 1.86v2.6c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/>
+            </svg>
+            <span>asifonwork</span>
+          </a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { getAnalytics, isSupported as isAnalyticsSupported } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
+    import {
+      addDoc,
+      collection,
+      enableIndexedDbPersistence,
+      getFirestore,
+      onSnapshot,
+      orderBy,
+      query,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8w0OrkGiL2kyj_u5EcNM0GGdLBG6vfHs",
+      authDomain: "sreepurfuel.firebaseapp.com",
+      projectId: "sreepurfuel",
+      storageBucket: "sreepurfuel.firebasestorage.app",
+      messagingSenderId: "1020007412937",
+      appId: "1:1020007412937:web:f463ec145f5ce483674918",
+      measurementId: "G-03YTC5GGQX"
+    };
+
+    const googleMapsApiKey = "";
+    const mawnaCenter = { lat: 24.0985, lng: 90.4125 };
+
+    const sampleStations = [
+      {
+        id: "mawna-chowrasta-filling",
+        name: "মেসার্স কাজী ফিলিং স্টেশন",
+        location: "মাওনা চৌরাস্তা, শ্রীপুর, গাজীপুর",
+        lat: 24.0985,
+        lng: 90.4125,
+        fuels: ["petrol", "octane", "diesel"]
+      },
+      {
+        id: "sreepur-highway-pump",
+        name: "শ্রীপুর হাইওয়ে পাম্প",
+        location: "ঢাকা-ময়মনসিংহ মহাসড়ক, মাওনা",
+        lat: 24.0958,
+        lng: 90.4194,
+        fuels: ["octane", "diesel"]
+      },
+      {
+        id: "gazipur-energy-station",
+        name: "বাংলাদেশ এনার্জি সেন্টার",
+        location: "মাওনা বাজার রোড",
+        lat: 24.1037,
+        lng: 90.4066,
+        fuels: ["petrol", "diesel"]
+      },
+      {
+        id: "mawna-bazar-filling",
+        name: "মাওনা বাজার ফিলিং",
+        location: "মাওনা বাজার, শ্রীপুর",
+        lat: 24.1012,
+        lng: 90.4158,
+        fuels: ["petrol", "octane", "diesel"]
+      },
+      {
+        id: "sterling-filling-station-mawna",
+        name: "স্টার ফিলিং স্টেশন",
+        location: "মাওনা ফ্লাইওভার এলাকা, শ্রীপুর, গাজীপুর",
+        lat: 24.0969,
+        lng: 90.4096,
+        fuels: ["petrol", "octane", "diesel"]
+      },
+      {
+        id: "mouna-bazar-padma-dealer",
+        name: "মাওনা বাজার পেট্রোল পাম্প",
+        location: "মাওনা বাজার, শ্রীপুর, গাজীপুর",
+        lat: 24.1018,
+        lng: 90.4132,
+        fuels: ["petrol", "octane", "diesel"]
+      },
+      {
+        id: "jaina-bazar-filling-station",
+        name: "মেসার্স আহম্মেদ ফিলিং স্টেশন জৈনা",
+        location: "জৈনা বাজার, শ্রীপুর, গাজীপুর",
+        lat: 24.0731,
+        lng: 90.4277,
+        fuels: ["petrol", "octane", "diesel"]
+      },
+      {
+        id: "telihati-filling-station",
+        name: "তেলিহাটি ফিলিং স্টেশন",
+        location: "তেলিহাটি, শ্রীপুর, গাজীপুর",
+        lat: 24.1239,
+        lng: 90.4308,
+        fuels: ["petrol", "diesel"]
+      },
+      {
+        id: "rajendrapur-highway-filling",
+        name: "রাজেন্দ্রপুর হাইওয়ে ফিলিং স্টেশন",
+        location: "রাজেন্দ্রপুর, গাজীপুর",
+        lat: 24.0065,
+        lng: 90.3899,
+        fuels: ["petrol", "octane", "diesel"]
+      },
+      {
+        id: "sreepur-pourashava-filling",
+        name: "শ্রীপুর পৌরসভা ফিলিং স্টেশন",
+        location: "শ্রীপুর পৌর এলাকা, গাজীপুর",
+        lat: 24.2015,
+        lng: 90.4803,
+        fuels: ["petrol", "octane", "diesel"]
+      }
+    ];
+
+    const stationNameOverrides = {
+      "mawna-chowrasta-filling": "মেসার্স কাজী ফিলিং স্টেশন",
+      "gazipur-energy-station": "বাংলাদেশ এনার্জি সেন্টার",
+      "sterling-filling-station-mawna": "স্টার ফিলিং স্টেশন",
+      "jaina-bazar-filling-station": "মেসার্স আহম্মেদ ফিলিং স্টেশন জৈনা"
+    };
+
+    const fuelLabels = {
+      petrol: "পেট্রোল",
+      octane: "অকটেন",
+      diesel: "ডিজেল"
+    };
+
+    const statusLabels = {
+      available: "স্টক আছে",
+      low: "কম",
+      empty: "নেই"
+    };
+
+    const statusClass = {
+      available: "available",
+      low: "low",
+      empty: "empty"
+    };
+
+    const state = {
+      stations: [...sampleStations],
+      updates: {},
+      allUpdates: [],
+      expandedStationId: sampleStations[0].id,
+      selectedStationId: sampleStations[0].id,
+      markers: new Map(),
+      googleMap: null,
+      infoWindow: null,
+      mapReady: false,
+      adminUnlocked: sessionStorage.getItem("fuelAdminUnlocked") === "yes",
+      db: null,
+      cloudEnabled: !firebaseConfig.apiKey.startsWith("YOUR_")
+    };
+
+    const stationSelect = document.getElementById("stationSelect");
+    const stationList = document.getElementById("stationList");
+    const stationCount = document.getElementById("stationCount");
+    const searchInput = document.getElementById("searchInput");
+    const fuelFilter = document.getElementById("fuelFilter");
+    const updateForm = document.getElementById("updateForm");
+    const adminRows = document.getElementById("adminRows");
+    const adminLoginForm = document.getElementById("adminLoginForm");
+    const adminPassword = document.getElementById("adminPassword");
+    const adminError = document.getElementById("adminError");
+    const adminContent = document.getElementById("adminContent");
+    const adminControlForm = document.getElementById("adminControlForm");
+    const adminStationSelect = document.getElementById("adminStationSelect");
+    const adminFuelType = document.getElementById("adminFuelType");
+    const adminStatus = document.getElementById("adminStatus");
+    const adminComment = document.getElementById("adminComment");
+    const adminSummary = document.getElementById("adminSummary");
+    const connectionText = document.getElementById("connectionText");
+    const googleMapFallback = document.getElementById("googleMapFallback");
+    const mapNotice = document.getElementById("mapNotice");
+
+    async function boot() {
+      seedLocalUpdates();
+      await initGoogleMap();
+      if (state.cloudEnabled) {
+        try {
+          const app = initializeApp(firebaseConfig);
+          isAnalyticsSupported().then((supported) => {
+            if (supported) getAnalytics(app);
+          }).catch(() => {});
+          state.db = getFirestore(app);
+          enableIndexedDbPersistence(state.db).catch(() => {});
+          connectionText.textContent = "সবাই লাইভ আপডেট দেখবে";
+          render();
+          listenStations();
+          listenUpdates();
+        } catch (error) {
+          connectionText.textContent = "ডেমো মোড চালু";
+          showToast("Firebase কনফিগ পাওয়া যায়নি, ডেমো ডেটা দেখানো হচ্ছে।");
+          render();
+        }
+      } else {
+        connectionText.textContent = "ডেমো মোড চালু";
+        showToast("Firebase কনফিগ বসালে লাইভ ক্লাউড আপডেট চালু হবে।");
+        render();
+      }
+    }
+
+    function seedLocalUpdates() {
+      const now = new Date();
+      state.updates = {
+        "mawna-chowrasta-filling": {
+          stationId: "mawna-chowrasta-filling",
+          fuelType: "petrol",
+          status: "available",
+          refillTime: "আজ সন্ধ্যার পর",
+          comment: "লাইন ছোট, জ্বালানি পাওয়া যাচ্ছে।",
+          createdAt: now
+        },
+        "sreepur-highway-pump": {
+          stationId: "sreepur-highway-pump",
+          fuelType: "diesel",
+          status: "low",
+          refillTime: "রাত ১০টা",
+          comment: "ডিজেল কম আছে।",
+          createdAt: new Date(now.getTime() - 11 * 60 * 1000)
+        },
+        "gazipur-energy-station": {
+          stationId: "gazipur-energy-station",
+          fuelType: "diesel",
+          status: "empty",
+          refillTime: "",
+          comment: "এখন স্টক নেই।",
+          createdAt: new Date(now.getTime() - 25 * 60 * 1000)
+        }
+      };
+      state.allUpdates = Object.values(state.updates).map((update, index) => ({
+        id: `demo-${index}`,
+        ...update
+      }));
+    }
+
+    async function initGoogleMap() {
+      if (!googleMapsApiKey || googleMapsApiKey.startsWith("YOUR_")) {
+        showGoogleFallback("Google Maps API key বসালে marker ও popup সহ লাইভ map চালু হবে। এখন Google Maps search view দেখানো হচ্ছে।");
+        return;
+      }
+
+      try {
+        await loadGoogleMaps();
+        state.googleMap = new google.maps.Map(document.getElementById("map"), {
+          center: mawnaCenter,
+          zoom: 13,
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: true,
+          gestureHandling: "greedy",
+          styles: [
+            { featureType: "poi.business", stylers: [{ visibility: "on" }] },
+            { featureType: "road", elementType: "geometry", stylers: [{ saturation: -15 }] }
+          ]
+        });
+        state.infoWindow = new google.maps.InfoWindow();
+        state.mapReady = true;
+        mapNotice.textContent = "Mawna, Sreepur, Gazipur এলাকার ফিলিং স্টেশনগুলো highlight করা হয়েছে।";
+        render();
+        discoverGoogleStations();
+      } catch (error) {
+        showGoogleFallback("Google Maps লোড করা যায়নি। Google Maps search view দেখানো হচ্ছে।");
+      }
+    }
+
+    function loadGoogleMaps() {
+      if (window.google?.maps) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        let settled = false;
+        const finish = (callback) => {
+          if (settled) return;
+          settled = true;
+          callback();
+        };
+        const previousAuthFailure = window.gm_authFailure;
+        window.gm_authFailure = () => {
+          if (typeof previousAuthFailure === "function") previousAuthFailure();
+          finish(() => reject(new Error("Google Maps authorization failed")));
+        };
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(googleMapsApiKey)}&libraries=places&language=bn&region=BD`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => finish(resolve);
+        script.onerror = () => finish(() => reject(new Error("Google Maps script failed")));
+        document.head.appendChild(script);
+        window.setTimeout(() => finish(() => reject(new Error("Google Maps timeout"))), 8000);
+      });
+    }
+
+    function showGoogleFallback(message) {
+      state.mapReady = false;
+      googleMapFallback.style.display = "block";
+      mapNotice.textContent = message;
+      document.getElementById("map").style.background = "#dfe9de";
+    }
+
+    async function discoverGoogleStations() {
+      if (!state.googleMap || !google.maps.places?.PlacesService) return;
+      const service = new google.maps.places.PlacesService(state.googleMap);
+      const request = {
+        location: mawnaCenter,
+        radius: 12000,
+        type: "gas_station",
+        keyword: "filling station petrol pump Mawna Sreepur Gazipur"
+      };
+
+      await new Promise((resolve) => {
+        service.nearbySearch(request, (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK && Array.isArray(results)) {
+            const googleStations = results
+              .filter((place) => place.geometry?.location)
+              .map((place) => ({
+                id: `google-${place.place_id || toStationId(place.name)}`,
+                name: place.name || "Google Maps ফিলিং স্টেশন",
+                location: place.vicinity || "মাওনা/শ্রীপুর/গাজীপুর এলাকা",
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
+                fuels: ["petrol", "octane", "diesel"],
+                source: "Google Maps"
+              }));
+            state.stations = mergeStations(state.stations, googleStations);
+            render();
+          }
+          resolve();
+        });
+      });
+    }
+
+    function mergeStations(baseStations, newStations) {
+      const merged = new Map();
+      [...baseStations, ...newStations].forEach((station) => {
+        const nextStation = { ...merged.get(station.id), ...station };
+        if (stationNameOverrides[nextStation.id]) {
+          nextStation.name = stationNameOverrides[nextStation.id];
+        }
+        merged.set(station.id, nextStation);
+      });
+      return [...merged.values()];
+    }
+
+    function toStationId(value) {
+      return String(value || "station")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    }
+
+    function listenStations() {
+      onSnapshot(collection(state.db, "stations"), (snapshot) => {
+        if (snapshot.empty) {
+          state.stations = mergeStations(state.stations, sampleStations);
+          render();
+          return;
+        }
+        const firestoreStations = snapshot.docs.map((entry) => ({ id: entry.id, ...entry.data() }));
+        state.stations = mergeStations(mergeStations(sampleStations, state.stations), firestoreStations);
+        render();
+      });
+    }
+
+    function listenUpdates() {
+      const updatesQuery = query(collection(state.db, "updates"), orderBy("createdAt", "desc"));
+      onSnapshot(updatesQuery, (snapshot) => {
+        const latest = {};
+        const allUpdates = [];
+        snapshot.docs.forEach((entry) => {
+          const data = { id: entry.id, ...normalizeUpdate(entry.data()) };
+          allUpdates.push(data);
+          if (!latest[data.stationId]) {
+            latest[data.stationId] = data;
+          }
+        });
+        state.updates = latest;
+        state.allUpdates = allUpdates;
+        render();
+      });
+    }
+
+    function normalizeUpdate(data) {
+      const createdAt = data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt || Date.now());
+      return { ...data, createdAt };
+    }
+
+    function render() {
+      const filtered = getFilteredStations();
+      renderStationSelect();
+      renderMarkers(filtered);
+      renderStationList(filtered);
+      renderAdmin();
+      stationCount.textContent = `${toBanglaNumber(filtered.length)}টি স্টেশন দেখানো হচ্ছে`;
+    }
+
+    function getFilteredStations() {
+      const term = searchInput.value.trim().toLocaleLowerCase("bn-BD");
+      const fuel = fuelFilter.value;
+      return state.stations.filter((station) => {
+        const matchesTerm = !term || `${station.name} ${station.location}`.toLocaleLowerCase("bn-BD").includes(term);
+        const matchesFuel = fuel === "all" || station.fuels.includes(fuel);
+        return matchesTerm && matchesFuel;
+      });
+    }
+
+    function renderStationSelect() {
+      stationSelect.innerHTML = state.stations.map((station) => {
+        const selected = station.id === state.selectedStationId ? "selected" : "";
+        return `<option value="${station.id}" ${selected}>${station.name}</option>`;
+      }).join("");
+      if (adminStationSelect) {
+        adminStationSelect.innerHTML = state.stations.map((station) => {
+          const selected = station.id === state.selectedStationId ? "selected" : "";
+          return `<option value="${station.id}" ${selected}>${station.name}</option>`;
+        }).join("");
+      }
+    }
+
+    function renderMarkers(stations) {
+      if (!state.mapReady || !state.googleMap) return;
+      state.markers.forEach((marker) => marker.setMap(null));
+      state.markers.clear();
+      const bounds = new google.maps.LatLngBounds();
+      stations.forEach((station) => {
+        const latest = state.updates[station.id];
+        const marker = new google.maps.Marker({
+          position: { lat: Number(station.lat), lng: Number(station.lng) },
+          map: state.googleMap,
+          title: station.name,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 11,
+            fillColor: getStatusColor(latest?.status),
+            fillOpacity: 0.9,
+            strokeColor: "#ffffff",
+            strokeWeight: 3
+          },
+          label: {
+            text: "⛽",
+            fontSize: "14px"
+          }
+        });
+        marker.addListener("click", () => {
+          selectStation(station.id, false);
+          state.infoWindow.setContent(getPopupHtml(station, latest));
+          state.infoWindow.open(state.googleMap, marker);
+        });
+        state.markers.set(station.id, marker);
+        bounds.extend(marker.getPosition());
+      });
+      if (!bounds.isEmpty()) {
+        state.googleMap.fitBounds(bounds, 70);
+      }
+    }
+
+    function renderStationList(stations) {
+      stationList.innerHTML = stations.map((station) => {
+        const latest = state.updates[station.id];
+        const active = station.id === state.selectedStationId ? "active" : "";
+        const badges = station.fuels.map((fuel) => `<span class="badge">${fuelLabels[fuel]}</span>`).join("");
+        const history = getStationUpdates(station.id);
+        const isExpanded = station.id === state.expandedStationId;
+        const statusBadge = latest
+          ? `<span class="badge ${statusClass[latest.status]}"><span class="dot"></span>${statusLabels[latest.status]}</span>`
+          : `<span class="badge">আপডেট নেই</span>`;
+        return `
+          <article class="station-card ${active}" data-station-id="${station.id}">
+            <div class="station-head">
+              <div>
+                <h3 class="station-name">${station.name}</h3>
+                <p class="station-location">${station.location}</p>
+              </div>
+              ${statusBadge}
+            </div>
+            <div class="badges">${badges}</div>
+            <p class="station-meta">${latest ? `${timeAgo(latest.createdAt)} আপডেট করা হয়েছে` : "এখনো কোনো ব্যবহারকারী আপডেট দেননি"}</p>
+            <p class="station-action">${isExpanded ? "আপডেট লুকান" : "সব আপডেট দেখুন"} · ${toBanglaNumber(history.length)}টি আপডেট</p>
+            ${isExpanded ? renderStationHistory(station.id) : ""}
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderStationHistory(stationId) {
+      const updates = getStationUpdates(stationId);
+      if (!updates.length) {
+        return `
+          <div class="station-history">
+            <p class="history-title">ব্যবহারকারীর সব আপডেট</p>
+            <p class="history-line">এই স্টেশনে এখনো কোনো আপডেট নেই।</p>
+          </div>
+        `;
+      }
+      return `
+        <div class="station-history">
+          <p class="history-title">ব্যবহারকারীর সব আপডেট</p>
+          ${updates.map((update) => `
+            <div class="history-item">
+              <p class="history-line"><strong>${fuelLabels[update.fuelType]}</strong> · ${statusLabels[update.status]} · ${timeAgo(update.createdAt)}</p>
+              <p class="history-line">রিফিল: ${escapeHtml(update.refillTime || "উল্লেখ নেই")}</p>
+              <p class="history-line">মন্তব্য: ${escapeHtml(update.comment || "মন্তব্য নেই")}</p>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function getStationUpdates(stationId) {
+      return state.allUpdates
+        .filter((update) => update.stationId === stationId)
+        .sort((a, b) => b.createdAt - a.createdAt);
+    }
+
+    function renderAdmin() {
+      renderAdminAccess();
+      if (!state.adminUnlocked) {
+        adminRows.innerHTML = "";
+        return;
+      }
+      const allUpdates = [...state.allUpdates]
+        .sort((a, b) => b.createdAt - a.createdAt)
+      adminSummary.textContent = `${toBanglaNumber(state.stations.length)}টি স্টেশন · ${toBanglaNumber(allUpdates.length)}টি আপডেট · অ্যাডমিন কন্ট্রোল চালু`;
+      const rows = allUpdates.map((update) => {
+          const station = state.stations.find((item) => item.id === update.stationId);
+          return `
+            <tr>
+              <td>${station?.name || "অজানা"}</td>
+              <td>${fuelLabels[update.fuelType]}</td>
+              <td>${statusLabels[update.status]}</td>
+              <td>${timeAgo(update.createdAt)}</td>
+              <td>${escapeHtml(update.comment || "মন্তব্য নেই")}</td>
+            </tr>
+          `;
+        }).join("");
+      adminRows.innerHTML = rows || `<tr><td colspan="5">কোনো আপডেট নেই</td></tr>`;
+    }
+
+    function renderAdminAccess() {
+      adminLoginForm.hidden = state.adminUnlocked;
+      adminContent.hidden = !state.adminUnlocked;
+    }
+
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      if (adminPassword.value === "0707") {
+        state.adminUnlocked = true;
+        sessionStorage.setItem("fuelAdminUnlocked", "yes");
+        adminPassword.value = "";
+        adminError.textContent = "";
+        renderAdmin();
+        showToast("অ্যাডমিন প্যানেল খুলেছে।");
+        return;
+      }
+      adminError.textContent = "পাসওয়ার্ড সঠিক নয়।";
+      adminPassword.select();
+    }
+
+    async function handleAdminControl(event) {
+      event.preventDefault();
+      const stationId = adminStationSelect.value;
+      if (!stationId || !adminFuelType.value || !adminStatus.value) {
+        showToast("অ্যাডমিন আপডেটের জন্য স্টেশন, জ্বালানি ও স্ট্যাটাস নির্বাচন করুন।");
+        return;
+      }
+
+      const update = {
+        stationId,
+        fuelType: adminFuelType.value,
+        status: adminStatus.value,
+        refillTime: "",
+        comment: adminComment.value.trim() || "অ্যাডমিন দ্বারা আপডেট করা হয়েছে",
+        createdAt: state.cloudEnabled && state.db ? serverTimestamp() : new Date()
+      };
+
+      try {
+        if (state.cloudEnabled && state.db) {
+          await addDoc(collection(state.db, "updates"), update);
+        } else {
+          const localUpdate = { id: `admin-${Date.now()}`, ...update, createdAt: new Date() };
+          state.allUpdates.unshift(localUpdate);
+          state.updates[stationId] = localUpdate;
+          render();
+        }
+      } catch (error) {
+        showToast("ক্লাউডে অ্যাডমিন আপডেট সংরক্ষণ করা যায়নি। Firestore rules/deploy চেক করুন।");
+        return;
+      }
+
+      adminComment.value = "";
+      state.selectedStationId = stationId;
+      state.expandedStationId = stationId;
+      stationSelect.value = stationId;
+      selectStation(stationId);
+      showToast(state.cloudEnabled && state.db ? "অ্যাডমিন আপডেট ক্লাউডে গেছে, সবাই লাইভ দেখতে পাবে।" : "অ্যাডমিন স্ট্যাটাস ডেমো মোডে আপডেট হয়েছে।");
+    }
+
+    function getPopupHtml(station, latest) {
+      const fuelList = station.fuels.map((fuel) => fuelLabels[fuel]).join(", ");
+      return `
+        <div class="google-popup">
+        <strong>${station.name}</strong><br>
+        অবস্থান: ${station.location}<br>
+        জ্বালানির ধরন: ${fuelList}<br>
+        বর্তমান অবস্থা: ${latest ? statusLabels[latest.status] : "আপডেট নেই"}<br>
+        সর্বশেষ আপডেট সময়: ${latest ? timeAgo(latest.createdAt) : "নেই"}<br>
+        ব্যবহারকারীর মন্তব্য: ${latest?.comment || "মন্তব্য নেই"}
+        ${station.source ? `<br>উৎস: ${station.source}` : ""}
+        </div>
+      `;
+    }
+
+    function selectStation(stationId, openPopup = true) {
+      state.selectedStationId = stationId;
+      stationSelect.value = stationId;
+      renderStationList(getFilteredStations());
+      const station = state.stations.find((item) => item.id === stationId);
+      const marker = state.markers.get(stationId);
+      if (station && state.mapReady && state.googleMap) {
+        state.googleMap.panTo({ lat: Number(station.lat), lng: Number(station.lng) });
+        state.googleMap.setZoom(15);
+      }
+      if (adminStationSelect) {
+        adminStationSelect.value = stationId;
+      }
+      if (marker && openPopup && state.infoWindow) {
+        state.infoWindow.setContent(getPopupHtml(station, state.updates[station.id]));
+        state.infoWindow.open(state.googleMap, marker);
+      }
+    }
+
+    async function submitUpdate(event) {
+      event.preventDefault();
+      const update = {
+        stationId: stationSelect.value,
+        fuelType: document.getElementById("fuelType").value,
+        status: document.getElementById("status").value,
+        refillTime: document.getElementById("refillTime").value.trim(),
+        comment: document.getElementById("comment").value.trim(),
+        createdAt: state.cloudEnabled && state.db ? serverTimestamp() : new Date()
+      };
+
+      if (!update.stationId || !update.fuelType || !update.status) {
+        showToast("দয়া করে স্টেশন, জ্বালানি ও স্ট্যাটাস নির্বাচন করুন।");
+        return;
+      }
+
+      try {
+        if (state.cloudEnabled && state.db) {
+          await addDoc(collection(state.db, "updates"), update);
+        } else {
+          const localUpdate = { id: `local-${Date.now()}`, ...update, createdAt: new Date() };
+          state.updates[update.stationId] = localUpdate;
+          state.allUpdates.unshift(localUpdate);
+          render();
+        }
+      } catch (error) {
+        showToast("আপডেট ক্লাউডে সংরক্ষণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।");
+        return;
+      }
+
+      updateForm.reset();
+      stationSelect.value = update.stationId;
+      state.expandedStationId = update.stationId;
+      selectStation(update.stationId);
+      showToast(state.cloudEnabled && state.db ? "আপডেট সফল হয়েছে, অন্য সবাই লাইভ দেখতে পাবে।" : "আপডেট ডেমো মোডে সংরক্ষণ হয়েছে।");
+    }
+
+    function locateNearby() {
+      if (!navigator.geolocation) {
+        showToast("আপনার ব্রাউজারে লোকেশন সুবিধা নেই।");
+        return;
+      }
+      navigator.geolocation.getCurrentPosition((position) => {
+        const userLatLng = [position.coords.latitude, position.coords.longitude];
+        const nearest = [...state.stations].sort((a, b) => {
+          return distance(userLatLng, [a.lat, a.lng]) - distance(userLatLng, [b.lat, b.lng]);
+        })[0];
+        if (nearest) {
+          selectStation(nearest.id);
+          showToast(`নিকটবর্তী স্টেশন: ${nearest.name}`);
+        }
+      }, () => showToast("লোকেশন অনুমতি পাওয়া যায়নি।"));
+    }
+
+    function distance(a, b) {
+      const [lat1, lon1] = a;
+      const [lat2, lon2] = b;
+      const r = 6371;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const x = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+      return 2 * r * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+    }
+
+    function toRad(value) {
+      return value * Math.PI / 180;
+    }
+
+    function getStatusColor(status) {
+      if (status === "available") return "#15803d";
+      if (status === "low") return "#c89100";
+      if (status === "empty") return "#c02626";
+      return "#66736c";
+    }
+
+    function timeAgo(date) {
+      const seconds = Math.max(1, Math.floor((Date.now() - date.getTime()) / 1000));
+      if (seconds < 60) return "এইমাত্র";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${toBanglaNumber(minutes)} মিনিট আগে`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${toBanglaNumber(hours)} ঘণ্টা আগে`;
+      return `${toBanglaNumber(Math.floor(hours / 24))} দিন আগে`;
+    }
+
+    function toBanglaNumber(value) {
+      return String(value).replace(/\d/g, (digit) => "০১২৩৪৫৬৭৮৯"[digit]);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    searchInput.addEventListener("input", render);
+    fuelFilter.addEventListener("change", render);
+    stationSelect.addEventListener("change", () => selectStation(stationSelect.value));
+    updateForm.addEventListener("submit", submitUpdate);
+    adminLoginForm.addEventListener("submit", handleAdminLogin);
+    adminControlForm.addEventListener("submit", handleAdminControl);
+    document.getElementById("adminOpenStationBtn").addEventListener("click", () => {
+      if (!adminStationSelect.value) return;
+      state.expandedStationId = adminStationSelect.value;
+      selectStation(adminStationSelect.value);
+    });
+    document.getElementById("clearBtn").addEventListener("click", () => updateForm.reset());
+    document.getElementById("nearbyBtn").addEventListener("click", locateNearby);
+    stationList.addEventListener("click", (event) => {
+      const card = event.target.closest("[data-station-id]");
+      if (card) {
+        const stationId = card.dataset.stationId;
+        state.expandedStationId = state.expandedStationId === stationId ? "" : stationId;
+        selectStation(stationId);
+      }
+    });
+    window.setInterval(render, 60000);
+
+    boot();
+  </script>
+</body>
+</html>
