@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Fuel Update Mawna Sreepur</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bangla Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: #f5f5f5;
+    }
+
+    header {
+      background: #0d6efd;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #map {
+      height: 50vh;
+      width: 100%;
+    }
+
+    .container {
+      padding: 15px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    select, input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      background: #198754;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #157347;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  Fuel Update - Mawna Sreepur
+</header>
+
+<div id="map"></div>
+
+<div class="container">
+  <h2>জ্বালানি আপডেট দিন</h2>
+
+  <select id="fuelType">
+    <option value="">জ্বালানির ধরন নির্বাচন করুন</option>
+    <option value="petrol">পেট্রোল</option>
+    <option value="octane">অকটেন</option>
+    <option value="diesel">ডিজেল</option>
+  </select>
+
+  <select id="status">
+    <option value="">স্ট্যাটাস নির্বাচন করুন</option>
+    <option value="available">স্টক আছে</option>
+    <option value="low">কম</option>
+    <option value="not_available">নেই</option>
+  </select>
+
+  <input type="text" id="refill" placeholder="রিফিল সময় (ঐচ্ছিক)">
+
+  <textarea id="comment" placeholder="মন্তব্য লিখুন (ঐচ্ছিক)"></textarea>
+
+  <button onclick="submitUpdate()">সাবমিট করুন</button>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+<script>
+  // Mawna Location
+  var map = L.map('map').setView([24.0985, 90.4125], 13);
+
+  // Map tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Sample station marker
+  var marker = L.marker([24.0985, 90.4125]).addTo(map);
+  marker.bindPopup("মাওনা ফিলিং স্টেশন<br>পেট্রোল: আছে").openPopup();
+
+  function submitUpdate() {
+    let fuel = document.getElementById("fuelType").value;
+    let status = document.getElementById("status").value;
+    let refill = document.getElementById("refill").value;
+    let comment = document.getElementById("comment").value;
+
+    if (!fuel || !status) {
+      alert("দয়া করে সব তথ্য পূরণ করুন");
+      return;
+    }
+
+    // For now just log (later connect API)
+    console.log({
+      fuel,
+      status,
+      refill,
+      comment,
+      time: new Date()
+    });
+
+    alert("আপডেট সফলভাবে সাবমিট হয়েছে!");
+
+    // Clear form
+    document.getElementById("fuelType").value = "";
+    document.getElementById("status").value = "";
+    document.getElementById("refill").value = "";
+    document.getElementById("comment").value = "";
+  }
+</script>
+
+</body>
+</html>
